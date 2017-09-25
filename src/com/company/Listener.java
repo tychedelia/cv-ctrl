@@ -2,7 +2,6 @@ package com.company;
 
 import javax.sound.sampled.TargetDataLine;
 import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
 
 public class Listener implements Runnable {
     private TargetDataLine line;
