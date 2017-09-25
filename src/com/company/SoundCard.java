@@ -23,6 +23,7 @@ public class SoundCard {
                     .map(AudioSystem::getMixer)
                     .orElseThrow(() -> new Exception("Cannot read soundcard"));
 
+            mixer.open();
             Line.Info info = mixer.getTargetLineInfo()[0];
             line = (TargetDataLine) mixer.getLine(info);
 
@@ -45,6 +46,7 @@ public class SoundCard {
         }
         new Listener(line).run();
     }
+
 
     // G+S
     public String getName() {
