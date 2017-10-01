@@ -14,7 +14,7 @@ public class Listener implements Runnable {
 
     private AudioFormat getFormat() {
         float sampleRate = 44100;
-        int sampleSizeInBits = 8;
+        int sampleSizeInBits = 16;
         int channels = 1; //mono
         boolean signed = true;
         boolean bigEndian = true;
@@ -23,7 +23,7 @@ public class Listener implements Runnable {
 
     @Override
     public void run() {
-        int SIZE = 64;
+        int SIZE = 16;
         try {
             line.open(getFormat());
         } catch (Exception ex) {
@@ -45,6 +45,7 @@ public class Listener implements Runnable {
                 }
 
                 byte ba[] = out.toByteArray();
+
                 for (byte b : ba) {
                     System.out.println(b);
                 }
