@@ -3,6 +3,7 @@ package com.company;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.TargetDataLine;
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 public class Listener implements Runnable {
 
@@ -17,13 +18,13 @@ public class Listener implements Runnable {
         int sampleSizeInBits = 16;
         int channels = 1; //mono
         boolean signed = true;
-        boolean bigEndian = true;
+        boolean bigEndian = false;
         return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
     }
 
     @Override
     public void run() {
-        int SIZE = 16;
+        int SIZE = line.getBufferSize();
         try {
             line.open(getFormat());
         } catch (Exception ex) {
@@ -46,9 +47,7 @@ public class Listener implements Runnable {
 
                 byte ba[] = out.toByteArray();
 
-                for (byte b : ba) {
-                    System.out.println(b);
-                }
+                System.out.println(Arrays.toString(ba));
             }
         }
     }
