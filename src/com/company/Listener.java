@@ -15,7 +15,7 @@ public class Listener implements Runnable {
 
     private AudioFormat getFormat() {
         float sampleRate = 44100;
-        int sampleSizeInBits = 16;
+        int sampleSizeInBits = 8;
         int channels = 1; //mono
         boolean signed = true;
         boolean bigEndian = false;
