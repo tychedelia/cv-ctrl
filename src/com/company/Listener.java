@@ -15,7 +15,7 @@ public class Listener implements Runnable {
 
     private AudioFormat getFormat() {
         float sampleRate = 44100;
-        int sampleSizeInBits = 8;
+        int sampleSizeInBits = 16;
         int channels = 1; //mono
         boolean signed = true;
         boolean bigEndian = false;
@@ -46,8 +46,15 @@ public class Listener implements Runnable {
                 }
 
                 byte ba[] = out.toByteArray();
+                short sa[] = new short[ba.length / 2];
 
-                System.out.println(Arrays.toString(ba));
+                int j = 0;
+                for (int i = 0; i < ba.length; i += 2) {
+                    short int16 = (short) (((ba[i] & 0xFF) << 8) | (ba[i + 1] & 0xFF));
+                    sa[j] = int16;
+                    j++;
+                }
+                System.out.println(Arrays.toString(sa));
             }
         }
     }
