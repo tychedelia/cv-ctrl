@@ -39,6 +39,7 @@ public class Listener implements Runnable {
         int n = 0;
         while (true) {
             if (line.isOpen()) {
+                out.reset();
                 int count = line.read(buffer, 0, SIZE);
                 if (count > 0) {
                     n++;
@@ -50,12 +51,26 @@ public class Listener implements Runnable {
 
                 int j = 0;
                 for (int i = 0; i < ba.length; i += 2) {
-                    short int16 = (short) (((ba[i] & 0xFF) << 8) | (ba[i + 1] & 0xFF));
-                    sa[j] = int16;
+                    sa[j] = littleEndian(ba[i], ba[i + 1]);
                     j++;
                 }
-                System.out.println(Arrays.toString(sa));
+
+                short avg = 0;
+                for (short s : sa) {
+                    avg += s;
+                }
+
+                System.out.println(avg);
             }
         }
     }
+
+    private short bigEndian(byte b1, byte b2) {
+        return (short) ((b1 << 8) | (b2 & 0xFF));
+    }
+
+    private short littleEndian(byte b1, byte b2) {
+        return (short) ((b1 & 0xFF) | (b2 << 8));
+    }
+
 }
