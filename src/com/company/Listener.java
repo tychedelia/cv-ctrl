@@ -3,6 +3,7 @@ package com.company;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.TargetDataLine;
 import java.io.ByteArrayOutputStream;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 public class Listener implements Runnable {
@@ -37,7 +38,7 @@ public class Listener implements Runnable {
         byte[] buffer = new byte[SIZE];
 
         int n = 0;
-        while (true) {
+        while (n == 0) {
             if (line.isOpen()) {
                 out.reset();
                 int count = line.read(buffer, 0, SIZE);
@@ -55,12 +56,13 @@ public class Listener implements Runnable {
                     j++;
                 }
 
-                short avg = 0;
+                long avg = 0;
                 for (short s : sa) {
+                    System.out.println(s + " : " + avg);
                     avg += s;
                 }
 
-                System.out.println(avg);
+                System.out.println(avg / sa.length);
             }
         }
     }
