@@ -25,7 +25,8 @@ public class Listener implements Runnable {
 
     @Override
     public void run() {
-        int SIZE = line.getBufferSize();
+        int FRAME_RATE = 30;
+        int SIZE = line.getBufferSize() / FRAME_RATE;
         try {
             line.open(getFormat());
         } catch (Exception ex) {
@@ -38,7 +39,7 @@ public class Listener implements Runnable {
         byte[] buffer = new byte[SIZE];
 
         int n = 0;
-        while (n == 0) {
+        while (true) {
             if (line.isOpen()) {
                 out.reset();
                 int count = line.read(buffer, 0, SIZE);
@@ -58,7 +59,6 @@ public class Listener implements Runnable {
 
                 long avg = 0;
                 for (short s : sa) {
-                    System.out.println(s + " : " + avg);
                     avg += s;
                 }
 
