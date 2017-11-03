@@ -17,7 +17,7 @@ public class Listener implements Runnable {
     private AudioFormat getFormat() {
         float sampleRate = 44100;
         int sampleSizeInBits = 16;
-        int channels = 1; //mono
+        int channels = 4;
         boolean signed = true;
         boolean bigEndian = false;
         return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
@@ -25,8 +25,7 @@ public class Listener implements Runnable {
 
     @Override
     public void run() {
-        int FRAME_RATE = 30;
-        int SIZE = line.getBufferSize() / FRAME_RATE;
+        int SIZE = line.getBufferSize();
         try {
             line.open(getFormat());
         } catch (Exception ex) {
@@ -49,20 +48,27 @@ public class Listener implements Runnable {
                 }
 
                 byte ba[] = out.toByteArray();
-                short sa[] = new short[ba.length / 2];
+
+                short sa1[] = new short[ba.length / 2];
+                short sa2[] = new short[ba.length / 2];
+                short sa3[] = new short[ba.length / 2];
+                short sa4[] = new short[ba.length / 2];
 
                 int j = 0;
-                for (int i = 0; i < ba.length; i += 2) {
-                    sa[j] = littleEndian(ba[i], ba[i + 1]);
+                for (int i = 0; i < ba.length; i += 8) {
+                    sa1[j] = littleEndian(ba[i + 0], ba[i + 1]);
+                    sa2[j] = littleEndian(ba[i + 2], ba[i + 3]);
+                    sa3[j] = littleEndian(ba[i + 4], ba[i + 5]);
+                    sa4[j] = littleEndian(ba[i + 6], ba[i + 7]);
                     j++;
                 }
 
                 long avg = 0;
-                for (short s : sa) {
+                for (short s : sa4) {
                     avg += s;
                 }
 
-                System.out.println(avg / sa.length);
+                System.out.println(avg / sa2.length);
             }
         }
     }
